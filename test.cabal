@@ -20,3 +20,4 @@ library
                        , hspec
                        , QuickCheck
   other-modules:      Spec
+                       , Letter

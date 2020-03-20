@@ -1,13 +1,16 @@
+{-# LANGUAGE StandaloneDeriving #-}
+
 module Spec where
 
+import Letter
 import Test.Hspec
 import Test.QuickCheck
 
-onlyBools :: Gen Bool
-onlyBools = elements [True]
+instance Arbitrary Letter where
+    arbitrary = (arbitrary :: Gen Int) >>= return . Letter
 
 spec :: IO ()
 spec = hspec $ do
-    describe "nothing" $ do
-        it "does nothing" $ do
-            forAll onlyBools $ \x -> x `shouldBe` True
+    describe "Type Letter" $ do
+        it "allows for letter arithmetic" $ do
+            property $ \(Letter x) (Letter y) -> Letter x + Letter y `shouldBe` Letter (x + y)
